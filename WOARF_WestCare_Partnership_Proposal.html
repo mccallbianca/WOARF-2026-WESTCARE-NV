@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECQO-Care × WestCare Nevada | WOARF Partnership Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0A0F; --violet: #2D2561; --cobalt: #1A3A8F; --royal: #2B5BB8;
+    --cream: #F4F1EB; --magenta: #C42D8E; --magenta-light: #E8388A;
+    --white: #FFFFFF; --border: rgba(42,37,97,0.12); --text-muted: rgba(10,10,15,0.55);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.65; overflow-x: hidden; }
+
+  #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--magenta), var(--royal)); width: 0%; z-index: 999; transition: width 0.1s linear; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(244,241,235,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 40px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--violet); }
+  .nav-logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--magenta); flex-shrink: 0; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: var(--ink); text-decoration: none; opacity: 0.7; transition: opacity 0.2s; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-cta { background: var(--violet); color: var(--white) !important; opacity: 1 !important; padding: 8px 20px; border-radius: 4px; }
+
+  .hero { min-height: 100vh; background: var(--ink); display: flex; flex-direction: column; justify-content: center; padding: 120px 80px 80px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 65% 55% at 85% 15%, rgba(45,37,97,0.8) 0%, transparent 70%), radial-gradient(ellipse 35% 45% at 10% 90%, rgba(196,45,142,0.1) 0%, transparent 60%); }
+  .hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(196,45,142,0.15); border: 1px solid rgba(196,45,142,0.35); color: var(--magenta-light); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 40px; position: relative; z-index: 1; }
+  .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--magenta-light); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(40px, 5vw, 72px); line-height: 1.06; color: var(--white); max-width: 900px; position: relative; z-index: 1; margin-bottom: 32px; }
+  .hero h1 em { font-style: italic; color: var(--magenta-light); }
+  .hero-sub { font-size: 18px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.62); max-width: 600px; position: relative; z-index: 1; margin-bottom: 48px; }
+  .hero-meta { display: flex; gap: 40px; flex-wrap: wrap; position: relative; z-index: 1; margin-bottom: 52px; }
+  .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .hero-meta-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+  .hero-meta-value { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.85); }
+  .hero-cta-row { display: flex; gap: 16px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn-primary { background: var(--magenta); color: var(--white); padding: 14px 32px; border-radius: 4px; font-size: 14px; font-weight: 600; letter-spacing: 0.04em; text-decoration: none; transition: all 0.2s; }
+  .btn-primary:hover { background: var(--magenta-light); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(196,45,142,0.35); }
+  .btn-outline { background: transparent; color: var(--white); padding: 14px 32px; border-radius: 4px; font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.2s; border: 2px solid rgba(255,255,255,0.25); }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.6); transform: translateY(-1px); }
+
+  .section { padding: 100px 80px; max-width: 1200px; margin: 0 auto; }
+  .section-label { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--magenta); margin-bottom: 16px; }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 3.5vw, 44px); line-height: 1.15; color: var(--ink); margin-bottom: 20px; }
+  .section-intro { font-size: 17px; font-weight: 300; line-height: 1.75; color: var(--text-muted); max-width: 640px; margin-bottom: 60px; }
+
+  .addressed-strip { background: var(--violet); padding: 60px 80px; display: flex; align-items: flex-start; gap: 60px; }
+  .addressed-icon { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 22px; }
+  .addressed-name { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--white); margin-bottom: 6px; }
+  .addressed-title { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 24px; }
+  .addressed-to { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 12px; }
+  .addressed-message { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.8); max-width: 720px; }
+
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-top: 48px; }
+  .problem-cell { background: var(--white); padding: 40px; transition: background 0.2s; }
+  .problem-cell:hover { background: #faf9f5; }
+  .problem-number { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--magenta); margin-bottom: 16px; opacity: 0.7; }
+  .problem-cell h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--ink); margin-bottom: 12px; }
+  .problem-cell p { font-size: 14px; line-height: 1.75; color: var(--text-muted); }
+
+  .roles-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 48px; }
+  .role-card { border: 1px solid var(--border); border-radius: 8px; background: var(--white); padding: 36px; transition: border-color 0.2s, box-shadow 0.2s; }
+  .role-card:hover { border-color: rgba(196,45,142,0.3); box-shadow: 0 6px 20px rgba(10,10,15,0.06); }
+  .role-icon { font-size: 28px; margin-bottom: 16px; }
+  .role-card h3 { font-family: 'DM Serif Display', serif; font-size: 21px; color: var(--ink); margin-bottom: 10px; }
+  .role-card p { font-size: 14px; line-height: 1.75; color: var(--text-muted); }
+
+  .program-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+  .program-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 28px; transition: border-color 0.2s; }
+  .program-card:hover { border-color: rgba(27,58,143,0.25); }
+  .program-tag { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--magenta); letter-spacing: 0.08em; margin-bottom: 12px; display: block; }
+  .program-card h3 { font-family: 'DM Serif Display', serif; font-size: 17px; color: var(--ink); margin-bottom: 8px; line-height: 1.3; }
+  .program-card p { font-size: 13px; line-height: 1.65; color: var(--text-muted); }
+
+  .grant-band { background: var(--cobalt); padding: 80px; }
+  .grant-band .section-label { color: rgba(255,255,255,0.5); }
+  .grant-band .section-title { color: var(--white); }
+  .grant-specs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: rgba(255,255,255,0.06); border-radius: 8px; overflow: hidden; margin-top: 48px; }
+  .grant-spec-item { padding: 32px; background: rgba(255,255,255,0.04); }
+  .spec-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 10px; }
+  .spec-value { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--white); margin-bottom: 6px; }
+  .spec-sub { font-size: 12px; color: rgba(255,255,255,0.45); }
+
+  .priority-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 36px; margin-bottom: 16px; display: flex; gap: 32px; align-items: flex-start; transition: border-color 0.2s, box-shadow 0.2s; }
+  .priority-card:hover { border-color: rgba(27,58,143,0.25); box-shadow: 0 6px 20px rgba(10,10,15,0.06); }
+  .priority-num { font-family: 'DM Serif Display', serif; font-size: 48px; line-height: 1; color: var(--cobalt); opacity: 0.15; flex-shrink: 0; width: 50px; text-align: right; }
+  .priority-content h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--ink); margin-bottom: 10px; }
+  .priority-content p { font-size: 14px; line-height: 1.75; color: var(--text-muted); }
+
+  .alignment-table { width: 100%; border-collapse: collapse; margin-top: 48px; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(10,10,15,0.06); }
+  .alignment-table thead tr { background: var(--violet); }
+  .alignment-table th { padding: 16px 24px; text-align: left; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+  .alignment-table tbody tr { border-bottom: 1px solid var(--border); background: var(--white); transition: background 0.15s; }
+  .alignment-table tbody tr:hover { background: #faf9f5; }
+  .alignment-table td { padding: 18px 24px; font-size: 14px; line-height: 1.6; color: var(--ink); vertical-align: top; }
+  .alignment-table td:first-child { font-weight: 600; color: var(--violet); width: 22%; }
+
+  .timeline { position: relative; margin-top: 48px; }
+  .timeline::before { content: ''; position: absolute; left: 28px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .timeline-item { display: flex; gap: 40px; align-items: flex-start; margin-bottom: 40px; position: relative; }
+  .timeline-dot { width: 58px; height: 58px; border-radius: 50%; background: var(--white); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; z-index: 1; font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; color: var(--violet); transition: border-color 0.2s; }
+  .timeline-item:hover .timeline-dot { border-color: var(--magenta); background: rgba(196,45,142,0.05); }
+  .timeline-content { flex: 1; padding-top: 12px; }
+  .timeline-phase { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--magenta); margin-bottom: 6px; }
+  .timeline-content h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--ink); margin-bottom: 8px; }
+  .timeline-content p { font-size: 14px; line-height: 1.7; color: var(--text-muted); }
+
+  .about-split { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
+  .about-card { background: var(--ink); border-radius: 8px; padding: 40px; text-align: center; }
+  .about-avatar { width: 96px; height: 96px; border-radius: 50%; background: linear-gradient(135deg, var(--violet), var(--magenta)); margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--white); }
+  .about-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--white); margin-bottom: 4px; }
+  .about-credential { font-size: 12px; color: rgba(255,255,255,0.45); margin-bottom: 24px; }
+  .credential-tag { display: inline-block; background: rgba(196,45,142,0.15); border: 1px solid rgba(196,45,142,0.25); color: var(--magenta-light); font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 12px; margin: 3px; }
+  .about-bio { font-size: 15px; line-height: 1.8; color: var(--text-muted); }
+  .about-bio strong { color: var(--ink); }
+
+  .close-section { background: var(--ink); padding: 100px 80px; text-align: center; position: relative; overflow: hidden; }
+  .close-section::before { content: ''; position: absolute; top: -80px; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(45,37,97,0.8) 0%, transparent 70%); }
+  .close-section .section-label { color: rgba(255,255,255,0.35); }
+  .close-title { font-family: 'DM Serif Display', serif; font-size: clamp(30px, 4vw, 52px); line-height: 1.1; color: var(--white); margin-bottom: 24px; position: relative; z-index: 1; }
+  .close-title em { font-style: italic; color: var(--magenta-light); }
+  .close-sub { font-size: 17px; font-weight: 300; line-height: 1.7; color: rgba(255,255,255,0.55); max-width: 600px; margin: 0 auto 48px; position: relative; z-index: 1; }
+  .contact-row { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; position: relative; z-index: 1; }
+  .contact-item { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 20px 32px; text-align: left; }
+  .contact-item-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 6px; }
+  .contact-item-value { font-size: 15px; color: rgba(255,255,255,0.85); font-weight: 500; }
+  .footer-note { font-size: 12px; color: rgba(255,255,255,0.2); position: relative; z-index: 1; margin-top: 48px; }
+
+  /* IP / Modal */
+  @media print { body { display: none !important; } }
+  .cert-overlay { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(10,10,15,0.75); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 24px; }
+  .cert-overlay.active { display: flex; }
+  .cert-modal { background: var(--white); border-radius: 10px; max-width: 680px; width: 100%; max-height: 80vh; overflow-y: auto; box-shadow: 0 32px 80px rgba(10,10,15,0.4); user-select: none; -webkit-user-select: none; }
+  .cert-modal-header { background: var(--violet); padding: 28px 36px; border-radius: 10px 10px 0 0; display: flex; align-items: flex-start; justify-content: space-between; }
+  .cert-modal-badge { font-family: 'Space Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.45); letter-spacing: 0.1em; margin-bottom: 8px; }
+  .cert-modal-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: white; line-height: 1.2; }
+  .cert-modal-close { background: rgba(255,255,255,0.1); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-left: 16px; }
+  .cert-modal-close:hover { background: rgba(255,255,255,0.2); }
+  .cert-modal-body { padding: 36px; }
+  .cert-section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--magenta); margin-bottom: 10px; margin-top: 28px; display: block; }
+  .cert-section-label:first-child { margin-top: 0; }
+  .cert-modal-body p { font-size: 14px; line-height: 1.8; color: var(--ink); margin-bottom: 12px; }
+  .cert-modal-body ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .cert-modal-body li { font-size: 14px; line-height: 1.65; color: var(--ink); display: flex; gap: 10px; align-items: flex-start; }
+  .cert-modal-body li::before { content: '→'; color: var(--magenta); font-weight: 700; flex-shrink: 0; }
+  .module-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .module-item { background: rgba(244,241,235,0.8); border: 1px solid var(--border); border-radius: 6px; padding: 12px 16px; display: flex; align-items: flex-start; gap: 12px; }
+  .module-num { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; color: var(--magenta); min-width: 24px; margin-top: 2px; }
+  .module-info { flex: 1; }
+  .module-name { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+  .module-hours { font-size: 11px; color: var(--text-muted); }
+  .ip-watermark { text-align: center; padding: 16px 36px; font-size: 11px; color: rgba(196,45,142,0.35); letter-spacing: 0.08em; border-top: 1px solid var(--border); font-family: 'Space Mono', monospace; }
+  .cert-link { color: var(--magenta); font-size: 12px; font-weight: 600; text-decoration: none; border-bottom: 1px dashed rgba(196,45,142,0.4); transition: color 0.2s; }
+  .cert-link:hover { color: var(--magenta-light); }
+  .tier-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--white); transition: transform 0.25s, box-shadow 0.25s; }
+  .tier-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(10,10,15,0.08); }
+  .tier-header { padding: 28px 28px 20px; border-bottom: 1px solid var(--border); }
+  .tier-badge { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--magenta); letter-spacing: 0.08em; margin-bottom: 12px; }
+  .tier-card h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--ink); margin-bottom: 6px; }
+  .tier-subtitle { font-size: 12px; color: var(--text-muted); }
+  .tier-body { padding: 24px 28px; }
+  .tier-body ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .tier-body li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.55; color: var(--ink); }
+  .tier-body li::before { content: '→'; color: var(--magenta); font-weight: 600; flex-shrink: 0; margin-top: 1px; }
+  .tier-footer { padding: 20px 28px; background: rgba(244,241,235,0.6); border-top: 1px solid var(--border); }
+  .tiers-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    .hero { padding: 100px 32px 60px; }
+    .section, .grant-band, .addressed-strip, .close-section { padding: 64px 32px; }
+    .problem-grid, .roles-grid, .tiers-row, .program-grid { grid-template-columns: 1fr; }
+    .about-split { grid-template-columns: 1fr; gap: 40px; }
+    .grant-specs { grid-template-columns: 1fr 1fr; }
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .addressed-strip { flex-direction: column; gap: 24px; }
+  }
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<nav>
+  <div class="nav-logo"><div class="nav-logo-dot"></div>ECQO-Care × WestCare NV</div>
+  <ul class="nav-links">
+    <li><a href="#problem">The Gap</a></li>
+    <li><a href="#roles">Your Role</a></li>
+    <li><a href="#programs">Populations</a></li>
+    <li><a href="#alignment">Grant Fit</a></li>
+    <li><a href="#contact" class="nav-cta">Endorse</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">WOARF Partnership Proposal · April 2026</div>
+  <h1>WestCare Uplifts<br>the Human Spirit.<br>ECQO Ensures They<br>Can <em>Find It First.</em></h1>
+  <p class="hero-sub">A formal invitation to Jason Engel, Ph.D. and the WestCare Nevada team — to serve as the warm-handoff anchor, community outreach infrastructure, and direct service partner for ECQO-Care's Washoe County WOARF pilot.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><span class="hero-meta-label">Funding Source</span><span class="hero-meta-value">Washoe Opioid Abatement & Recovery Fund (WOARF)</span></div>
+    <div class="hero-meta-item"><span class="hero-meta-label">Priority Area</span><span class="hero-meta-value">Priority 3 · OUD Prevention + Workforce + Navigation</span></div>
+    <div class="hero-meta-item"><span class="hero-meta-label">Grant Period</span><span class="hero-meta-value">3-Year Program · Beginning October 2026</span></div>
+    <div class="hero-meta-item"><span class="hero-meta-label">Lead Applicant</span><span class="hero-meta-value">Desert Rose Gives · 501(c)3</span></div>
+  </div>
+  <div class="hero-cta-row">
+    <a href="#roles" class="btn-primary">See WestCare's Role</a>
+    <a href="#contact" class="btn-outline">Endorse with Letter of Support</a>
+  </div>
+</section>
+
+<!-- ADDRESSED TO -->
+<div class="addressed-strip">
+  <div class="addressed-icon">✉</div>
+  <div style="flex:1;">
+    <div class="addressed-to">This proposal is prepared for</div>
+    <div class="addressed-name">Jason Engel, Ph.D.</div>
+    <div class="addressed-title">WestCare Nevada · One of Nevada's longest-running behavioral health treatment organizations · Programs spanning residential treatment, outpatient, transitional housing, veteran services, and community prevention statewide</div>
+    <p class="addressed-message">
+      Jason — WestCare has been uplifting the human spirit in Nevada for decades, serving the populations most impacted by OUD: people experiencing homelessness, justice-involved individuals, women and children, veterans, and rural communities without adequate access to care. ECQO-Care is not asking WestCare to do something new. It is asking WestCare to be the human endpoint of a system that ensures the people who need WestCare most can actually find their way there — and stay connected once they do. This proposal describes exactly how that works, and what the partnership means for the county.
+    </p>
+  </div>
+</div>
+
+<!-- THE GAP -->
+<div id="problem" style="background:var(--white);">
+  <div class="section fade-up">
+    <span class="section-label">What the 2026–2029 Needs Assessment Found</span>
+    <h2 class="section-title">Washoe County Has Services.<br>The Gap Is Getting People to Them.</h2>
+    <p class="section-intro">The Needs Assessment found that survey respondents felt services were accessible — but expressed deep concern about the county's ability to coordinate and navigate people to those services. That navigation gap is what ECQO-Care fills, with WestCare as the destination.</p>
+    <div class="problem-grid">
+      <div class="problem-cell">
+        <div class="problem-number">FINDING 01 / NAVIGATION</div>
+        <h3>Outreach Worker Funding Ended October 2025</h3>
+        <p>The community outreach workers who successfully connected disconnected populations to care lost their funding in October 2025. ECQO-Care deploys always-available digital outreach that operates where those workers left off — routing individuals to WestCare and clinical partners through structured warm handoffs the moment elevated risk is detected.</p>
+      </div>
+      <div class="problem-cell">
+        <div class="problem-number">FINDING 02 / ACCESS</div>
+        <h3>The Window of Readiness Is Narrow and Unforgiving</h3>
+        <p>The Needs Assessment identifies the "short window of readiness for change" as the most critical — and most commonly missed — intervention point. Long waitlists, insurance denials, and lack of real-time navigation cause individuals to miss that window. ECQO catches them the moment they engage and connects them directly to WestCare before the window closes.</p>
+      </div>
+      <div class="problem-cell">
+        <div class="problem-number">FINDING 03 / STIGMA</div>
+        <h3>Stigma and Discrimination Deter Help-Seeking</h3>
+        <p>The Needs Assessment documents that stigma from healthcare providers and community members actively deters individuals from seeking help. ECQO's Virtual Human effect — proven to increase disclosure rates for stigmatized behaviors — creates the stigma-free first contact that makes WestCare's door feel reachable for people who would otherwise never knock.</p>
+      </div>
+      <div class="problem-cell">
+        <div class="problem-number">FINDING 04 / WORKFORCE</div>
+        <h3>Provider Burnout Is Eroding the System From Within</h3>
+        <p>The Needs Assessment documents the Service Provider Burnout Cycle in detail: high-acuity caseloads, secondary trauma, and low wages drive providers out of the field faster than they can be replaced. ECQO absorbs 90% of Tier 1 prevention volume, protecting WestCare's clinical capacity for the complex, high-acuity work that only trained humans can do.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WESTCARE'S ROLES -->
+<div id="roles" style="background:var(--cream);">
+  <div class="section fade-up">
+    <span class="section-label">WestCare Nevada's Four Roles</span>
+    <h2 class="section-title">The Human Infrastructure<br>Behind Every ECQO Handoff.</h2>
+    <p class="section-intro">WestCare does not receive referrals from ECQO-Care. WestCare is ECQO-Care's most critical partner — the verified, trusted, staffed human endpoint that every warm handoff is designed to reach.</p>
+    <div class="roles-grid">
+      <div class="role-card">
+        <div class="role-icon">🔄</div>
+        <h3>Warm-Handoff Receiving Partner</h3>
+        <p>When ECQO's AI Moderators detect elevated OUD risk signals, they activate a warm-handoff protocol. WestCare Nevada is the primary community receiving partner — verified, MOU-documented, and staffed to receive those referrals and complete the connection. WestCare's no-insurance, no-ability-to-pay policy makes it the right destination for every population ECQO-Care serves. Referral completion rates are tracked and reported to WOARF quarterly.</p>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">🌍</div>
+        <h3>Community Outreach + Participant Access</h3>
+        <p>WestCare's deep community penetration across Washoe County — through its outreach infrastructure, Nevada State Welfare Outreach Enroller onsite, and relationships with justice-involved, homeless, veteran, and rural populations — provides ECQO-Care with trusted access to the individuals the Needs Assessment identifies as hardest to reach. WestCare channels support participant recruitment and ensure outreach reaches those most at risk.</p>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">👥</div>
+        <h3>Peer Workforce Pipeline for Certification Cohorts</h3>
+        <p>WestCare's direct service staff and peer recovery community include individuals with lived experience of OUD and behavioral addiction — exactly the population ECQO-Care's ARM, AM, and ANS certification tracks are designed for. WestCare serves as a recruitment pipeline for peer navigators entering ECQO certification cohorts, extending career development opportunities to the workforce WestCare already serves and employs.</p>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">📋</div>
+        <h3>Referral Directory Anchor + Compliance Linkage</h3>
+        <p>WestCare's program breadth — residential treatment, outpatient, transitional housing, veteran services, women and children's programming — means it anchors ECQO's live partner referral directory across multiple population-specific pathways. ECQO AI Navigator Specialists maintain current WestCare referral protocols, eligibility criteria, and intake procedures, ensuring warm handoffs arrive with the context WestCare needs to connect participants quickly.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WESTCARE PROGRAMS SERVED -->
+<div id="programs" style="background:var(--white);">
+  <div class="section fade-up">
+    <span class="section-label">Population Alignment</span>
+    <h2 class="section-title">Every WestCare Program Serves<br>a Population ECQO-Care Targets.</h2>
+    <p class="section-intro">The 2026–2029 Needs Assessment identifies eight populations experiencing disproportionate OUD impact. WestCare Nevada serves six of them directly — making this partnership the most population-complete referral relationship in the program.</p>
+    <div class="program-grid">
+      <div class="program-card">
+        <span class="program-tag">POPULATION 01</span>
+        <h3>People Experiencing Homelessness</h3>
+        <p>WestCare's 4th Street Transitional Living, Women and Children's Campus, and Homefront VA programs serve individuals without stable housing. ECQO's mobile-first, no-address-required platform reaches them where they are — and routes them to WestCare with context and a warm introduction already established.</p>
+      </div>
+      <div class="program-card">
+        <span class="program-tag">POPULATION 02</span>
+        <h3>Women + Gender-Diverse Individuals</h3>
+        <p>WestCare's Women and Children's Campus and Women Warrior Unit provide specialized residential, transitional, and veteran services for women — including the Serenity Program and Healthy Families Project. ECQO's warm handoff protocols include gender-responsive referral pathways that route directly to these programs.</p>
+      </div>
+      <div class="program-card">
+        <span class="program-tag">POPULATION 03</span>
+        <h3>Veterans</h3>
+        <p>WestCare's Homefront VA Independent Housing program in Reno directly serves veterans experiencing OUD and housing instability. ECQO-Care's referral directory includes veteran-specific escalation pathways that route to WestCare Reno for this population — one of the Needs Assessment's explicitly prioritized groups.</p>
+      </div>
+      <div class="program-card">
+        <span class="program-tag">POPULATION 04</span>
+        <h3>Justice-Involved Individuals</h3>
+        <p>WestCare's Criminal Justice programming provides treatment and recovery support for individuals involved in the justice system. The Needs Assessment documents that 130 people per month have OUD treatment interrupted by jail contact. ECQO's reentry warm-handoff protocols connect justice-involved individuals back to WestCare upon community return.</p>
+      </div>
+      <div class="program-card">
+        <span class="program-tag">POPULATION 05</span>
+        <h3>Uninsured + Medicaid Recipients</h3>
+        <p>WestCare's onsite Nevada State Welfare Outreach Enroller and no-turn-away policy eliminates the insurance barrier the Needs Assessment documents as a primary access obstacle. ECQO's warm handoffs explicitly note WestCare's no-insurance policy to reduce participant hesitation at the point of referral.</p>
+      </div>
+      <div class="program-card">
+        <span class="program-tag">POPULATION 06</span>
+        <h3>Youth + Young Adults (18–35)</h3>
+        <p>WestCare's Education and Prevention programming, including Connections Fatherhood F.I.R.E., reaches young adults and families. ECQO's co-designed, mobile-first platform meets this demographic in their digital environment and routes to WestCare's prevention and early intervention programs before escalation occurs.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CERT PATHWAYS -->
+<div style="background:var(--cream);">
+  <div class="section fade-up">
+    <span class="section-label">Certification Pathways</span>
+    <h2 class="section-title">WestCare Staff and Peers<br>Eligible for All Three Tracks.</h2>
+    <p class="section-intro">WestCare's peer recovery community and frontline staff are the ideal candidates for ECQO's three certification tracks — bringing lived experience, community trust, and direct service context to every role.</p>
+    <div class="tiers-row">
+      <div class="tier-card">
+        <div class="tier-header">
+          <div class="tier-badge">ECQO-ARM · Entry Level</div>
+          <h3>Behavioral Health AI Risk Mitigator</h3>
+          <div class="tier-subtitle">Peer Support · Lived Experience · No Prerequisite</div>
+        </div>
+        <div class="tier-body">
+          <ul>
+            <li>Audit AI response accuracy and clinical safety guardrails</li>
+            <li>Identify behavioral risk markers in conversational data</li>
+            <li>Cultural responsiveness review and anti-stigma communication</li>
+            <li>Incident documentation and quality improvement reporting</li>
+          </ul>
+        </div>
+        <div class="tier-footer">
+          <div style="font-size:12px; font-weight:600; color:var(--violet);"><a href="#" class="cert-link" onclick="openCertModal('arm'); return false;">Outcome: ECQO-ARM Certification · 16-hour curriculum ↗</a></div>
+        </div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-header">
+          <div class="tier-badge">ECQO-AM · Intermediate</div>
+          <h3>Behavioral Health AI Moderator</h3>
+          <div class="tier-subtitle">CHWs · Paraprofessionals · Prereq: ARM</div>
+        </div>
+        <div class="tier-body">
+          <ul>
+            <li>Live monitoring of ECQO Existential Screener Trigger Matrix</li>
+            <li>OUD and behavioral addiction escalation signal recognition</li>
+            <li>Warm-handoff activation to WestCare and 988</li>
+            <li>Motivational Interviewing-informed peer engagement</li>
+          </ul>
+        </div>
+        <div class="tier-footer">
+          <div style="font-size:12px; font-weight:600; color:var(--violet);"><a href="#" class="cert-link" onclick="openCertModal('am'); return false;">Outcome: ECQO-AM Certification · 16-hour curriculum ↗</a></div>
+        </div>
+      </div>
+      <div class="tier-card">
+        <div class="tier-header">
+          <div class="tier-badge">ECQO-ANS · Advanced</div>
+          <h3>AI Navigator Specialist — Behavioral Health</h3>
+          <div class="tier-subtitle">Care Coordinators · Clinical Interns · Prereq: AM</div>
+        </div>
+        <div class="tier-body">
+          <ul>
+            <li>Execute warm handoffs to WestCare, 988, and community partners</li>
+            <li>Maintain live WestCare referral directory with current protocols</li>
+            <li>SDoH-informed navigation and resource linkage</li>
+            <li>Train-the-Trainer capacity for ARM and AM cohorts</li>
+          </ul>
+        </div>
+        <div class="tier-footer">
+          <div style="font-size:12px; font-weight:600; color:var(--violet);"><a href="#" class="cert-link" onclick="openCertModal('ans'); return false;">Outcome: ECQO-ANS Certification · 16-hour curriculum ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GRANT BAND -->
+<div id="alignment" class="grant-band fade-up">
+  <span class="section-label">WOARF Grant Parameters</span>
+  <h2 class="section-title">The Funding Landscape.</h2>
+  <div class="grant-specs">
+    <div class="grant-spec-item"><div class="spec-label">Funder</div><div class="spec-value">Washoe County WOARF</div><div class="spec-sub">Community Reinvestment Division · $41M over 20 years</div></div>
+    <div class="grant-spec-item"><div class="spec-label">Program Period</div><div class="spec-value">3 Years</div><div class="spec-sub">2026–2029 cycle · October 2026 start</div></div>
+    <div class="grant-spec-item"><div class="spec-label">Priority Area</div><div class="spec-value">Priority 3</div><div class="spec-sub">OUD prevention · outreach · workforce</div></div>
+    <div class="grant-spec-item"><div class="spec-label">Participants Served</div><div class="spec-value">140+ / Year 1</div><div class="spec-sub">100 direct · 20 peer workforce · 20+ outreach reach</div></div>
+  </div>
+</div>
+
+<!-- PRIORITY ALIGNMENT -->
+<div style="background:var(--white);">
+  <div class="section fade-up">
+    <span class="section-label">WOARF Priority 3 Alignment</span>
+    <h2 class="section-title">How ECQO-Care + WestCare<br>Answer Priority 3 Together.</h2>
+    <p class="section-intro">No single organization can answer all dimensions of Priority 3. ECQO-Care and WestCare together cover every requirement — digital infrastructure, human warm handoff, cultural outreach, workforce development, and sustainability.</p>
+    <div class="priority-card">
+      <div class="priority-num">3</div>
+      <div class="priority-content">
+        <h3>Multidisciplinary OUD Prevention + Education</h3>
+        <p>ECQO delivers clinically governed AI prevention — existential risk screening, OUD psychoeducation, cognitive distortion interruption, and coping skill micro-interventions — 24/7 to adults at risk. WestCare provides the residential, outpatient, and transitional services that ECQO participants are navigated to when clinical support is needed. Together they form a complete prevention-to-treatment continuum.</p>
+      </div>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">↳</div>
+      <div class="priority-content">
+        <h3>Culturally Appropriate Outreach for Under-Resourced Communities</h3>
+        <p>WestCare's no-turn-away policy, onsite benefits enroller, and statewide program presence ensure that ECQO's warm handoffs reach populations regardless of insurance, documentation, or housing status. WestCare's community relationships with justice-involved, veteran, and women-serving programs extend ECQO's cultural reach beyond what a technology platform can achieve alone.</p>
+      </div>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">↳</div>
+      <div class="priority-content">
+        <h3>Workforce Sustainability and Burnout Mitigation</h3>
+        <p>WestCare's clinical and peer staff benefit directly from ECQO absorbing Tier 1 prevention volume — routine check-ins, psychoeducation, emotional tracking — that currently occupies frontline worker capacity. WestCare staff are also eligible to enter ECQO's ARM, AM, and ANS certification tracks, creating new professional development pathways and supplemental income opportunities that directly address the retention crisis the Needs Assessment documents.</p>
+      </div>
+    </div>
+    <div class="priority-card">
+      <div class="priority-num">↳</div>
+      <div class="priority-content">
+        <h3>Sustainability: Navigation Over Expansion</h3>
+        <p>The Needs Assessment's most cited finding is that coordination and navigation — not service expansion — is the primary unmet need. ECQO-Care does not add competing services to WestCare's landscape. It adds the navigation infrastructure that fills the gap between a person's moment of readiness and WestCare's door. This partnership is additive, not duplicative. Desert Rose Gives is not a Medicaid provider; WestCare is — and the partnership structure honors that distinction clearly.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VALUE EXCHANGE TABLE -->
+<div style="background:var(--cream);">
+  <div class="section fade-up">
+    <span class="section-label">Value Exchange</span>
+    <h2 class="section-title">What We Each Bring.</h2>
+    <table class="alignment-table">
+      <thead><tr><th>Component</th><th>Desert Rose Gives · ECQO Holdings</th><th>WestCare Nevada</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Clinical Infrastructure</td>
+          <td>ECQO AI platform, four-layer guardrail protocol, existential risk screener, LMFT clinical oversight, 24/7 digital prevention delivery</td>
+          <td>Licensed residential, outpatient, and transitional clinical programs; onsite benefits enrollment; no-turn-away policy for uninsured</td>
+        </tr>
+        <tr>
+          <td>Warm Handoff System</td>
+          <td>ECQO AI Moderator-triggered escalation protocols; AI Navigator Specialist warm-handoff execution; partner-confirmed linkage tracking</td>
+          <td>Verified receiving partner across residential, outpatient, and transitional pathways; known intake protocols documented in ECQO referral directory</td>
+        </tr>
+        <tr>
+          <td>Population Access</td>
+          <td>Mobile-first, no-insurance, no-referral digital entry point reaching individuals before they are ready for clinical contact; peer cohort outreach through NRAP network</td>
+          <td>Deep community penetration with justice-involved, homeless, veteran, women and family, and rural populations; trusted community relationships built over decades</td>
+        </tr>
+        <tr>
+          <td>Workforce Development</td>
+          <td>ARM, AM, and ANS certification curricula; 90-day supervised incubator; stipended peer positions; Circular Economy income model for certified professionals</td>
+          <td>Peer recovery workforce pipeline eligible for ECQO certification; staff professional development pathway; operational context for certification curriculum co-development</td>
+        </tr>
+        <tr>
+          <td>Sustainability</td>
+          <td>ECQO $0.75 PMPM workforce reinvestment mechanism; DRG federal grant vehicle (SAMHSA, HRSA, WOARF). <em>DRG is not a Medicaid provider.</em></td>
+          <td>Medicaid-billable clinical programs provide long-term sustainability; WestCare's organizational infrastructure absorbs referred participants into funded service lines</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div style="background:var(--white);">
+  <div class="section fade-up">
+    <span class="section-label">Implementation Roadmap</span>
+    <h2 class="section-title">How the Partnership<br>Activates and Scales.</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot">P1</div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Phase 1 · April – June 2026 · Formalization</div>
+          <h3>MOU Execution + Referral Infrastructure Setup</h3>
+          <p>Execute Memorandum of Understanding between Desert Rose Gives, ECQO Holdings, and WestCare Nevada defining warm-handoff protocols, referral directory documentation, data sharing governance, and staff contacts for escalation response. WestCare program leads are interviewed for ECQO referral directory: intake criteria, capacity, population specialties, response time commitments, and escalation contacts confirmed for all relevant program pathways.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">P2</div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Phase 2 · July – December 2026 · Pilot Launch</div>
+          <h3>Warm Handoffs Live + Workforce Cohort Launch</h3>
+          <p>ECQO platform deploys with 100+ participants. First warm handoffs to WestCare initiated and tracked. WestCare peer recovery staff recruited for ARM certification cohort (up to 5 positions available through WestCare pipeline). Monthly partner learning sessions begin — WestCare designated staff attend to review de-identified referral completion data and provide feedback on intake friction, resource gaps, and protocol refinements.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">P3</div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Phase 3 · 2027 · Scale + Evidence Build</div>
+          <h3>Expanded Referral Network + Certification Expansion</h3>
+          <p>Year 1 warm-handoff completion data and referral follow-through metrics inform protocol refinements. WestCare-certified ARM graduates eligible for AM cohort enrollment. Quarterly WOARF reports include WestCare-confirmed linkage outcomes. Partner data contributes to BeHERE NV's independent evaluation and the joint SAMHSA/HRSA federal grant co-application.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT BIANCA -->
+<div style="background:var(--cream);">
+  <div class="section fade-up">
+    <span class="section-label">Program Leadership</span>
+    <h2 class="section-title">About the Founder.</h2>
+    <div class="about-split">
+      <div>
+        <div class="about-card">
+          <div class="about-avatar">B</div>
+          <div class="about-name">Bianca D. McCall, LMFT</div>
+          <div class="about-credential">Founder & CEO, ECQO Holdings<br>Founder & President, Desert Rose Gives</div>
+          <div style="margin-top:16px;">
+            <span class="credential-tag">SAMHSA Federal Advisor</span>
+            <span class="credential-tag">LMFT Licensed</span>
+            <span class="credential-tag">HHS · SPRC</span>
+            <span class="credential-tag">TED Speaker</span>
+            <span class="credential-tag">Nevada OCoE</span>
+            <span class="credential-tag">AI Founder</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-bio">
+        <p style="margin-bottom:20px;"><strong>Bianca D. McCall, LMFT</strong> is a Licensed Marriage and Family Therapist, existential psychologist, and SAMHSA Federal Advisor to the Suicide Prevention Resource Center (HHS). She brings 25+ years of clinical, federal, and community expertise across OUD, behavioral addiction, trauma-informed care, suicide and violence prevention, crisis intervention, and behavioral change.</p>
+        <p style="margin-bottom:20px;">She served as curriculum developer for the Nevada Opioid Center of Excellence, has presented at the National, Nevada, and Illinois Councils on Problem Gambling, and contributes to the National Strategy for Suicide Prevention 2025–2030. She is a wellness and performance consultant to the Native American Athletic Foundation, supporting NFL and MLB athletes through culturally responsive behavioral health frameworks.</p>
+        <p style="margin-bottom:20px;">ECQO was built by a clinician who has sat with the peer specialist who cannot carry one more case, the person experiencing homelessness who missed their window of readiness because the line was too long, and the justice-involved individual who returned to the community with no connection and no support. The technology was designed to close those gaps — and WestCare is the human infrastructure that makes the closure real.</p>
+        <p><strong>Bianca is the Program Manager and clinical authority for this application</strong> — responsible for all ECQO-Care deliverables, clinical oversight, partner coordination, and WOARF reporting.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CLOSE / CTA -->
+<div id="contact" class="close-section fade-up">
+  <span class="section-label">The Invitation</span>
+  <h2 class="close-title">WestCare uplifts the<br>human spirit. ECQO<br>makes sure people can<br><em>reach it first.</em></h2>
+  <p class="close-sub">The 2026–2029 Needs Assessment is clear: navigation and coordination — not service expansion — is Washoe County's primary unmet need. This partnership puts ECQO's digital navigation infrastructure behind WestCare's clinical door. We are ready to formalize the moment the partnership is confirmed.</p>
+  <div class="contact-row">
+    <div class="contact-item"><div class="contact-item-label">Lead Applicant</div><div class="contact-item-value">Desert Rose Gives · 501(c)3</div></div>
+    <div class="contact-item"><div class="contact-item-label">Program Director</div><div class="contact-item-value">Bianca D. McCall, LMFT</div></div>
+    <div class="contact-item"><div class="contact-item-label">Technology Entity</div><div class="contact-item-value">ECQO Holdings</div></div>
+    <div class="contact-item"><div class="contact-item-label">WOARF Priority</div><div class="contact-item-value">Priority 3 · 3-Year Program</div></div>
+  </div>
+  <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; position:relative; z-index:1;">
+    <button onclick="openLetterOfSupport()" class="btn-primary" style="font-size:15px; padding:16px 40px; cursor:pointer; border:none; font-family:inherit;">
+      ✍&nbsp;&nbsp;Endorse with Letter of Support
+    </button>
+  </div>
+  <p class="footer-note">
+    ECQO-Care WOARF Partnership Proposal · Desert Rose Gives × ECQO Holdings × WestCare Nevada · Prepared April 2026<br>
+    Confidential — prepared for Jason Engel, Ph.D. and the WestCare Nevada Leadership Team
+  </p>
+</div>
+
+<!-- CERT MODAL OVERLAY -->
+<div class="cert-overlay" id="certOverlay">
+  <div class="cert-modal" id="certModal">
+    <div class="cert-modal-header">
+      <div><div class="cert-modal-badge" id="modalBadge"></div><div class="cert-modal-title" id="modalTitle"></div></div>
+      <button class="cert-modal-close" onclick="closeCertModal()">✕</button>
+    </div>
+    <div class="cert-modal-body" id="modalBody"></div>
+    <div class="ip-watermark">ECQO Holdings · Proprietary Curriculum · Confidential · © 2026 · Not for distribution</div>
+  </div>
+</div>
+
+<!-- LETTER OF SUPPORT OVERLAY -->
+<div id="losOverlay" style="display:none; position:fixed; inset:0; z-index:600; background:rgba(10,10,15,0.82); backdrop-filter:blur(8px); align-items:flex-start; justify-content:center; padding:40px 24px; overflow-y:auto;">
+  <div style="background:var(--cream); border-radius:10px; max-width:740px; width:100%; box-shadow:0 32px 80px rgba(10,10,15,0.5); margin:auto;">
+    <div style="background:var(--violet); padding:28px 40px; border-radius:10px 10px 0 0; display:flex; align-items:flex-start; justify-content:space-between;">
+      <div>
+        <div style="font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:6px;">WOARF · Desert Rose Gives · ECQO Holdings</div>
+        <div style="font-family:'DM Serif Display',serif; font-size:22px; color:white; line-height:1.2;">Letter of Support</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.45); margin-top:4px;">ECQO-Care × WestCare Nevada · WOARF Priority 3 · OUD Prevention + Navigation</div>
+      </div>
+      <button onclick="closeLOS()" style="background:rgba(255,255,255,0.12); border:none; color:white; width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:18px; line-height:1; flex-shrink:0; margin-left:16px;">✕</button>
+    </div>
+    <div style="padding:40px;">
+      <div style="font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--magenta); margin-bottom:10px;">Grant Objectives</div>
+      <div style="background:rgba(45,37,97,0.05); border-left:3px solid var(--violet); padding:16px 20px; border-radius:0 6px 6px 0; font-size:13px; line-height:1.8; color:var(--ink); margin-bottom:28px;">
+        The WOARF grant funds Desert Rose Gives to deploy the ECQO conversational AI platform as 24/7 behavioral health prevention infrastructure for Washoe County adults — addressing OUD and co-occurring behavioral addictions through a multidisciplinary, peer-governed, tech-enabled model. ECQO delivers existential risk screening, OUD psychoeducation, cognitive distortion interruption, and warm handoffs to clinical partners. Over three years, the program trains 20 peer navigators in AI-integrated behavioral health roles (ECQO-ARM, ECQO-AM, ECQO-ANS) and builds an evidence base for NSHE curriculum integration and federal sustainability funding.
+      </div>
+      <div style="font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--magenta); margin-bottom:10px;">ECQO-Care Program Goals</div>
+      <div style="background:rgba(45,37,97,0.05); border-left:3px solid var(--violet); padding:16px 20px; border-radius:0 6px 6px 0; font-size:13px; line-height:1.8; color:var(--ink); margin-bottom:28px;">
+        <strong>Goal 1 — Prevention Infrastructure:</strong> Deploy ECQO as always-available, stigma-free digital prevention and navigation infrastructure ensuring no individual misses their window of readiness due to waitlists, transportation, insurance barriers, or shame.<br><br>
+        <strong>Goal 2 — Workforce Development:</strong> Build Washoe County's first certified AI-specialized peer behavioral health workforce through ECQO-ARM, ECQO-AM, and ECQO-ANS certifications — creating career advancement pathways for peers and CHWs trapped in entry-level roles.<br><br>
+        <strong>Goal 3 — Warm Handoff System:</strong> Operationalize a verified, partner-confirmed warm handoff network with WestCare Nevada as the primary receiving partner — ensuring every elevated-risk escalation reaches a staffed, documented human endpoint within 72 hours.
+      </div>
+
+      <form action="https://formsubmit.co/mccall.bianca@gmail.com" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="_subject" value="WOARF Letter of Support — WestCare Nevada × ECQO-Care">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" value="https://h3rr.com">
+        <input type="hidden" name="Grant Program" value="Washoe Opioid Abatement and Recovery Fund (WOARF) — Priority 3">
+        <input type="hidden" name="Lead Applicant" value="Desert Rose Gives 501(c)3 + ECQO Holdings">
+        <input type="hidden" name="Proposal Site" value="WestCare Nevada Partnership Proposal">
+
+        <div style="font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--magenta); margin-bottom:10px;">Endorsing Partner Organization</div>
+        <input type="text" name="Partner Organization" placeholder="e.g., WestCare Nevada · WestCare Foundation" required style="width:100%; padding:12px 16px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; color:var(--ink); background:white; outline:none; margin-bottom:14px; box-sizing:border-box;">
+        <textarea name="Partnership Role Description" placeholder="Briefly describe WestCare Nevada's role in the ECQO-Care program..." rows="3" style="width:100%; padding:12px 16px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; color:var(--ink); background:white; outline:none; resize:vertical; margin-bottom:28px; box-sizing:border-box;"></textarea>
+
+        <div style="font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--magenta); margin-bottom:12px;">WestCare Nevada Deliverables — 3 Commitments</div>
+        <div style="background:rgba(244,241,235,0.9); border:1px solid var(--border); border-radius:8px; padding:24px; margin-bottom:28px;">
+          <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px;">
+            <div style="width:26px; height:26px; border-radius:50%; background:var(--magenta); color:white; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+            <input type="text" name="Deliverable 1" placeholder="e.g., Serve as primary warm-handoff receiving partner — verified, MOU-documented, and staffed for ECQO referral intake across all WestCare program pathways" required style="flex:1; padding:11px 14px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:13px; background:white; outline:none; min-width:0;">
+          </div>
+          <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px;">
+            <div style="width:26px; height:26px; border-radius:50%; background:var(--magenta); color:white; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+            <input type="text" name="Deliverable 2" placeholder="e.g., Provide peer workforce recruitment pipeline — identifying ECQO certification cohort candidates from WestCare's peer recovery and frontline staff communities" required style="flex:1; padding:11px 14px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:13px; background:white; outline:none; min-width:0;">
+          </div>
+          <div style="display:flex; gap:12px; align-items:center;">
+            <div style="width:26px; height:26px; border-radius:50%; background:var(--magenta); color:white; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</div>
+            <input type="text" name="Deliverable 3" placeholder="e.g., Participate in monthly partner learning sessions — providing referral completion data, intake feedback, and protocol refinement recommendations for quarterly WOARF reporting" required style="flex:1; padding:11px 14px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:13px; background:white; outline:none; min-width:0;">
+          </div>
+        </div>
+
+        <div style="font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--magenta); margin-bottom:10px;">Upload Team Member Resumes</div>
+        <div style="border:2px dashed var(--border); border-radius:8px; padding:28px; text-align:center; margin-bottom:28px; position:relative; cursor:pointer; transition:border-color 0.2s;" onmouseover="this.style.borderColor='#1A3A8F'" onmouseout="this.style.borderColor='rgba(42,37,97,0.14)'">
+          <input type="file" name="attachment" multiple accept=".pdf,.doc,.docx" onchange="showUploadNames(this)" style="position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; margin:0; padding:0; border:none;">
+          <div style="font-size:24px; margin-bottom:8px;">📎</div>
+          <div style="font-size:14px; font-weight:600; color:var(--cobalt); margin-bottom:4px;">Click or drag to upload resumes</div>
+          <div style="font-size:12px; color:var(--text-muted);">PDF, DOC, or DOCX · Multiple files accepted</div>
+          <div id="uploadNames" style="font-size:12px; color:var(--magenta); font-weight:600; margin-top:10px; min-height:18px;"></div>
+        </div>
+
+        <div style="font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--magenta); margin-bottom:16px;">Authorized Personnel</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:14px;">
+          <div><div style="font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Full Name *</div><input type="text" name="Authorized Name" placeholder="Full legal name" required style="width:100%; padding:12px 16px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; background:white; outline:none; box-sizing:border-box;"></div>
+          <div><div style="font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Title / Position *</div><input type="text" name="Authorized Title" placeholder="e.g., Executive Director, WestCare Nevada" required style="width:100%; padding:12px 16px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; background:white; outline:none; box-sizing:border-box;"></div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:14px;">
+          <div><div style="font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Organization *</div><input type="text" name="Authorized Organization" placeholder="WestCare Nevada · WestCare Foundation" required style="width:100%; padding:12px 16px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; background:white; outline:none; box-sizing:border-box;"></div>
+          <div><div style="font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Email Address *</div><input type="email" name="Authorized Email" placeholder="jengel@westcare.com" required style="width:100%; padding:12px 16px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; background:white; outline:none; box-sizing:border-box;"></div>
+        </div>
+        <div style="margin-bottom:28px;"><div style="font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px;">Date *</div><input type="text" name="Date" placeholder="e.g., April 15, 2026" required style="width:260px; padding:12px 16px; border:1px solid var(--border); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; background:white; outline:none; box-sizing:border-box;"></div>
+
+        <div style="border-top:1px solid var(--border); padding-top:24px; margin-bottom:32px;">
+          <div style="font-size:11px; font-weight:600; letter-spacing:0.06em; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px;">Digital Signature — Type full name to confirm endorsement *</div>
+          <input type="text" name="Digital Signature" placeholder="Type full name as digital signature" required style="width:100%; padding:14px 16px; border:1px solid var(--border); border-bottom:2px solid var(--ink); border-radius:6px 6px 0 0; font-family:'DM Serif Display',serif; font-size:18px; font-style:italic; color:var(--violet); background:white; outline:none; box-sizing:border-box;">
+          <div style="font-size:11px; color:var(--text-muted); margin-top:8px; line-height:1.6;">By entering your name, you confirm WestCare Nevada's intent to participate as a strategic warm-handoff and workforce partner in the ECQO-Care WOARF grant application submitted by Desert Rose Gives.</div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:16px; align-items:center;">
+          <button type="button" onclick="closeLOS()" style="background:transparent; border:1px solid var(--border); color:var(--ink); padding:14px 28px; border-radius:6px; font-family:'DM Sans',sans-serif; font-size:14px; cursor:pointer;">Cancel</button>
+          <button type="submit" style="background:var(--magenta); color:white; border:none; padding:16px 48px; border-radius:6px; font-family:'DM Sans',sans-serif; font-size:15px; font-weight:600; cursor:pointer; letter-spacing:0.04em;">Submit Letter of Support →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && ['c','p','s','a','u'].includes(e.key.toLowerCase())) e.preventDefault();
+  if (e.key === 'PrintScreen') e.preventDefault();
+});
+
+function openLetterOfSupport() {
+  const o = document.getElementById('losOverlay');
+  o.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => { o.scrollTop = 0; }, 10);
+}
+function closeLOS() {
+  document.getElementById('losOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+function showUploadNames(input) {
+  const el = document.getElementById('uploadNames');
+  const files = Array.from(input.files);
+  if (files.length) el.textContent = '✓ ' + files.map(f => f.name).join(', ');
+}
+
+const certData = {
+  arm: {
+    badge: 'ECQO-ARM · Entry Level · 16-Hour Certification Track',
+    title: 'Behavioral Health AI Risk Mitigator',
+    description: 'The ECQO-ARM certification prepares practitioners with lived experience to serve as the quality assurance and clinical safety backbone of AI-assisted behavioral health platforms. This track develops the technical literacy, clinical judgment, and ethical reasoning required to audit AI-generated responses, maintain safety guardrails, and ensure that automated interactions remain culturally resonant, trauma-informed, and clinically sound. No prerequisites required.',
+    objectives: ['Describe the architecture and operational logic of conversational AI in behavioral health contexts','Apply clinical safety standards to AI-generated responses across diverse user risk profiles','Conduct structured red-team auditing sessions to identify response drift, cultural misalignment, or clinical errors','Enforce and document safety guardrail protocols in accordance with ECQO governance standards','Escalate identified anomalies through defined incident response workflows','Demonstrate competency in de-identified incident documentation and quality improvement reporting'],
+    modules: [{ num:'01', name:'Foundations of AI in Behavioral Health — The Labor Trap and the Bridge', hours:'3 hours' },{ num:'02', name:'Risk Recognition and Safety Protocols — Existential Screener Trigger Matrix', hours:'4 hours' },{ num:'03', name:'Community and Cultural Responsiveness — Virtual Human Effect', hours:'3 hours' },{ num:'04', name:'Practical Application and Incubator Preparation — Prompt-Response Auditing Lab', hours:'6 hours' },{ num:'—', name:'90-Day Supervised Incubator: Shadow → Active Audit → Cohort Leadership', hours:'Post-training' }]
+  },
+  am: {
+    badge: 'ECQO-AM · Intermediate · 16-Hour Certification Track',
+    title: 'Behavioral Health AI Moderator',
+    description: 'The ECQO-AM certification develops practitioners to serve as live risk monitors and triage specialists within the ECQO platform. This track trains participants to read the ECQO Existential Screener Trigger Matrix in real time, recognize acute distress and OUD escalation signals, and activate warm-handoff workflows with precision, speed, and clinical empathy. Prerequisite: ARM certification or equivalent.',
+    objectives: ['Interpret ECQO Existential Screener output data and risk classification tiers accurately in real time','Recognize acute distress, suicidality, OUD escalation, and behavioral addiction crisis indicators','Apply Motivational Interviewing (MI)-informed communication principles in peer-facing touchpoints','Activate and execute warm-handoff workflows to WestCare, 988, and licensed clinical providers','Maintain accurate, confidential session logs consistent with HIPAA-aligned documentation standards','Demonstrate de-escalation competency across simulated high-acuity scenarios'],
+    modules: [{ num:'01', name:'Moderator Role and Responsibilities — Human Oversight as Platform Conscience', hours:'2 hours' },{ num:'02', name:'Behavioral Analysis and Pattern Recognition — OUD and Addiction Markers', hours:'4 hours' },{ num:'03', name:'Warm Handoff and Care Coordination — WestCare, 988, EHR Integration', hours:'3 hours' },{ num:'04', name:'Oversight, Compliance, and Quality Assurance — Logic Map Implementation', hours:'4 hours' },{ num:'05', name:'Advanced Incubator Preparation — Case Review and Mentorship', hours:'3 hours' },{ num:'—', name:'90-Day Supervised Incubator: Supervised → Active → Independent → Capstone', hours:'Post-training' }]
+  },
+  ans: {
+    badge: 'ECQO-ANS · Advanced · 16-Hour Certification Track',
+    title: 'AI Navigator Specialist — Behavioral Health',
+    description: 'The ECQO-ANS certification prepares practitioners as the care connection and resource linkage specialists of the ECQO ecosystem. ANS graduates maintain WestCare\'s referral directory, execute warm handoffs with partner confirmation, and operate across rural and frontier environments. Graduate-level NSHE elective credit eligible. Prerequisite: AM certification or active licensure pathway.',
+    objectives: ['Execute warm-handoff protocols connecting elevated-risk users to WestCare and licensed clinical providers','Apply population health and SDoH mapping using ECQO data dashboards for Washoe County communities','Demonstrate data literacy: reading aggregate behavioral data, contributing to culturally responsive research','Navigate systems integration across EHR platforms, crisis continuum, and cross-sector care coordination','Operate effectively in rural and frontier low-bandwidth environments with limited provider density','Lead ARM and AM cohort training as a Train-the-Trainer qualified faculty member'],
+    modules: [{ num:'01', name:'AI Navigation in Clinical Context — Navigator Role Across All Three Portals', hours:'2 hours' },{ num:'02', name:'Population Health and SDoH Integration — ZIP-Level Resource Mapping', hours:'3 hours' },{ num:'03', name:'Data Literacy and Research Contribution — PHI Minimization and Community Sovereignty', hours:'3 hours' },{ num:'04', name:'Systems Integration — Rural and Frontier Navigation Protocols', hours:'4 hours' },{ num:'05', name:'Leadership, Training, and Workforce Development — Circular Economy Model', hours:'4 hours' },{ num:'—', name:'90-Day Supervised Incubator: Systems Practicum → Independent Navigation → Leadership', hours:'Post-training' }]
+  }
+};
+
+function openCertModal(track) {
+  const d = certData[track];
+  document.getElementById('modalBadge').textContent = d.badge;
+  document.getElementById('modalTitle').textContent = d.title;
+  const obj = d.objectives.map(o => `<li>${o}</li>`).join('');
+  const mods = d.modules.map(m => `<div class="module-item"><div class="module-num">${m.num}</div><div class="module-info"><div class="module-name">${m.name}</div><div class="module-hours">${m.hours}</div></div></div>`).join('');
+  document.getElementById('modalBody').innerHTML = `<span class="cert-section-label">Course Description</span><p>${d.description}</p><span class="cert-section-label">Learning Objectives</span><ul>${obj}</ul><span class="cert-section-label">Curriculum Modules</span><div class="module-grid">${mods}</div>`;
+  document.getElementById('certOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeCertModal() {
+  document.getElementById('certOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.getElementById('certOverlay').addEventListener('click', function(e) { if (e.target === this) closeCertModal(); });
+
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+});
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.05 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+window.addEventListener('load', () => {
+  document.querySelectorAll('.fade-up').forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible');
+  });
+});
+</script>
+</body>
+</html>
